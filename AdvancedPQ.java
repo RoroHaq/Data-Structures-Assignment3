@@ -3,6 +3,7 @@
 public class AdvancedPQ{
     public PQElement[] elements;
     private int size = 0;
+    private boolean isMinHeap = true;
 
     public AdvancedPQ(){
       elements = new PQElement[100];
@@ -12,6 +13,13 @@ public class AdvancedPQ{
       return size;
     }
 
+    public boolean compare(PQElement child, PQElement parent){
+      if(isMinHeap){
+        return child.priority < parent.priority;
+      }else{
+        return child.priority > parent.priority;
+      }
+    }
     public void swap(int indexOne, int indexTwo){
       PQElement temp = elements[indexOne];
       elements[indexOne] = elements[indexTwo];
@@ -34,12 +42,25 @@ public class AdvancedPQ{
       return item;
     }
     public void downHeap(){
-
+      int index = 0;
+      while(hasLeftChild(index)){
+        int smallerChildIndex = getLeftChildIndex(index);
+        if(hasRightChild(index) && rightChild(index).priority < leftChild(index).priority ){
+          smallerChildIndex = getRightChildIndex(index);
+        }
+        if(elements[index].priority < elements[smallerChildIndex].priority){
+          break;
+        }else{
+          swap(index, smallerChildIndex);
+          index = smallerChildIndex;
+        }
+      }
     }
     public void upHeap(){
       int index = size-1;
-      while (hasParent(index) && parent(index).priority > elements[index].priority ){
-
+      while (hasParent(index) && compare(elements[index], parent(index)) ){
+        swap(getParentIndex(index), index);
+        index = getParentIndex(index);
       }
     }
 
