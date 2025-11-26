@@ -1,6 +1,12 @@
 
+
 public class AdvancedPQ{
-  public static void main(String[] args) {
-  
-}
+    public PQElement[] elements;
+
+    public AdvancedPQ(){
+      elements = new PQElement[100];
+    }
+    public int size(){
+      return elements.length;
+    }
 }
