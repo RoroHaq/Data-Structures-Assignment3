@@ -1,4 +1,9 @@
 public class PQElement {
-  int priority;
-  int name;
+  public int priority;
+  public String name;
+
+  public PQElement(int priority, String name){
+    this.priority = priority;
+    this.name = name;
+  }
 }
