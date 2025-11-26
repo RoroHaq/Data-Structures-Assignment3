@@ -12,6 +12,13 @@ public class AdvancedPQ{
       return size;
     }
 
+    public void swap(int indexOne, int indexTwo){
+      PQElement temp = elements[indexOne];
+      elements[indexOne] = elements[indexTwo];
+      elements[indexTwo] = temp;
+
+    }
+
     public PQElement removeTop(){
       if(size == 0) throw new IllegalArgumentException();
 
@@ -30,7 +37,10 @@ public class AdvancedPQ{
 
     }
     public void upHeap(){
+      int index = size-1;
+      while (hasParent(index) && parent(index).priority > elements[index].priority ){
 
+      }
     }
 
     private int getLeftChildIndex(int parentIndex){ return 2 * parentIndex + 1;}
