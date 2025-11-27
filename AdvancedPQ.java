@@ -1,18 +1,28 @@
 
-
+/**
+ * Common formula for figuring out heap left and right children:
+ * Left most : (index * 2) + 1
+ * Right most : (index *2) + 2
+ */
 public class AdvancedPQ{
     public PQElement[] elements;
     private int size = 0;
     private boolean isMinHeap = true;
 
     public AdvancedPQ(){
-      elements = new PQElement[100];
-      size = 100;
+      elements = new PQElement[15];
     }
     public int size(){
       return size;
     }
 
+    public void toggle(){
+      isMinHeap = !isMinHeap;
+      for(int i = (size-2)/2 ; i >= 0; i--){
+        System.out.println(i);
+        downHeap(i);
+      }
+    }
     public boolean compare(PQElement child, PQElement parent){
       if(isMinHeap){
         return child.priority < parent.priority;
@@ -33,27 +43,30 @@ public class AdvancedPQ{
       PQElement item = elements[0];
       elements[0] = elements[size - 1];
       size--;
+      downHeap(0);
       return item;
     }
     public PQElement insert (int k, String v){
       PQElement item = new PQElement(k, v);
+      elements[size] = item;
       size++;
       upHeap();
       return item;
     }
-    public void downHeap(){
-      int index = 0;
+    public void downHeap(int index){
       while(hasLeftChild(index)){
+        
         int smallerChildIndex = getLeftChildIndex(index);
-        if(hasRightChild(index) && rightChild(index).priority < leftChild(index).priority ){
+        if(hasRightChild(index) && compare(rightChild(index),leftChild(index))){
           smallerChildIndex = getRightChildIndex(index);
         }
-        if(elements[index].priority < elements[smallerChildIndex].priority){
+        if(compare(elements[index], elements[smallerChildIndex])){
           break;
         }else{
           swap(index, smallerChildIndex);
-          index = smallerChildIndex;
+          
         }
+        index = smallerChildIndex;
       }
     }
     public void upHeap(){
@@ -64,8 +77,18 @@ public class AdvancedPQ{
       }
     }
 
-    private int getLeftChildIndex(int parentIndex){ return 2 * parentIndex + 1;}
-    private int getRightChildIndex(int parentIndex){ return 2 * parentIndex + 2;}
+    public String toString(){
+      String message = "";
+      for(int i = 0 ; i < size; i++){
+        message += "(" + elements[i].priority + ", " + elements[i].name + ") " + "| ";
+      }
+
+      return message;
+    }
+    
+    //Helper functions
+    private int getLeftChildIndex(int parentIndex){ return (parentIndex * 2) + 1;}
+    private int getRightChildIndex(int parentIndex){ return (parentIndex * 2) + 2;}
     private int getParentIndex(int childIndex){ return (childIndex-1) / 2;}
 
     private boolean hasLeftChild(int index){ return getLeftChildIndex(index) < size; }
