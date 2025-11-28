@@ -30,7 +30,6 @@ public class AdvancedPQ{
     public void toggle(){
       isMinHeap = !isMinHeap;
       for(int i = (size-2)/2 ; i >= 0; i--){
-        System.out.println(i);
         downHeap(i);
       }
     }
@@ -48,6 +47,20 @@ public class AdvancedPQ{
 
       elements[indexOne].index = indexOne;
       elements[indexTwo].index = indexTwo;
+    }
+
+    public void merge(AdvancedPQ otherAPQ){
+      int otherAPQSize = otherAPQ.size();
+      for(int i =0; i < otherAPQSize; i++){
+        ensureExtraCapacity();
+        elements[size] = otherAPQ.elements[i];
+        elements[size].index = size;
+        size++;
+      }
+
+      for(int i = (size-2)/2 ; i >= 0; i--){
+        downHeap(i);
+      }
     }
     public PQElement top(){
       if(size == 0) throw new IllegalArgumentException("No Top Value");
