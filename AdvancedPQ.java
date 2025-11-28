@@ -1,8 +1,8 @@
 
 /**
  * Common formula for figuring out heap left and right children:
- * Left most : (index * 2) + 1
- * Right most : (index *2) + 2
+ * Left child : (index * 2) + 1
+ * Right right : (index *2) + 2
  */
 public class AdvancedPQ{
     public PQElement[] elements;
@@ -35,9 +35,9 @@ public class AdvancedPQ{
     }
     public boolean compare(PQElement child, PQElement parent){
       if(isMinHeap){
-        return child.priority < parent.priority;
+        return child.key < parent.key;
       }else{
-        return child.priority > parent.priority;
+        return child.key > parent.key;
       }
     }
     public void swap(int indexOne, int indexTwo){
@@ -75,6 +75,30 @@ public class AdvancedPQ{
 
       return elements[n];
     }
+    public String state(){
+      if (isMinHeap){
+        return "Min";
+      }
+      else{
+        return "Max";
+      }
+    }
+    public int replaceKey(PQElement e, int k){
+      int index = e.index;
+      int oldKey = e.key;
+      e.key = k;
+      if(hasParent(index) && compare(elements[index], parent(index))){
+        upHeap(index);
+      }else{
+        downHeap(index);
+      }
+      return oldKey;
+    }
+    public String replaceValue(PQElement e, String v){
+      String oldValue = e.value;
+      e.value = v;
+      return oldValue;
+    }
     public PQElement remove(PQElement e){
       if(size == 0) throw new IllegalArgumentException("Queue empty, nothing to remove");
 
@@ -84,7 +108,7 @@ public class AdvancedPQ{
       size--;
 
       if(hasParent(index) && compare(elements[index], parent(index))){
-        upHeap();
+        upHeap(index);
       }else{
         downHeap(index);
       }
@@ -105,7 +129,7 @@ public class AdvancedPQ{
       item.index = size;
       elements[size] = item;
       size++;
-      upHeap();
+      upHeap(size-1);
       return item;
     }
     public void downHeap(int index){
@@ -123,8 +147,7 @@ public class AdvancedPQ{
         index = smallerChildIndex;
       }
     }
-    public void upHeap(){
-      int index = size-1;
+    public void upHeap(int index){
       while (hasParent(index) && compare(elements[index], parent(index))){
         swap(getParentIndex(index), index);
         index = getParentIndex(index);
@@ -138,7 +161,7 @@ public class AdvancedPQ{
     public String toString(){
       String message = "";
       for(int i = 0 ; i < size; i++){
-        message += "(" + elements[i].priority + ", " + elements[i].name + " at index: " + elements[i].index + ") " + "| ";
+        message += "(" + elements[i].key + ", " + elements[i].value + " at index: " + elements[i].index + ") " + "| ";
       }
 
       return message;

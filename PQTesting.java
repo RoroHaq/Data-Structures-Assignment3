@@ -1,7 +1,7 @@
 public class PQTesting {
   public static void main(String[] args){
     
-    int[] priorities = {5, 1, 9, 3, 7, 2, 8, 4, 6};
+    int[] priorities = {5, 9, 3, 7, 2, 8, 4, 6};
     String[] names = {"E","A","I","C","G","B","H","D","F"};
     int[] priorities2 = {12, 15, 10, 14, 11, 18, 13, 16, 17};
     String[] names2 = {"L","M","J","N","K","R","O","P","Q"};
@@ -17,12 +17,8 @@ public class PQTesting {
     System.out.println(test);
     System.out.println(test.size());
     PQElement found = test.peekAt(1);
-    System.out.println("\n");
-    PQElement removed = test.remove(found);
+    int value = test.replaceKey(found, 1);
 
     System.out.println(test);
-    System.out.println(test.size());
-    System.out.println("\n");
-    System.out.println(removed);
   }
 }

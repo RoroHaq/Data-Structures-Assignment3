@@ -1,14 +1,14 @@
 public class PQElement {
-  public int priority;
-  public String name;
+  public int key;
+  public String value;
   public int index;
 
-  public PQElement(int priority, String name){
-    this.priority = priority;
-    this.name = name;
+  public PQElement(int key, String value){
+    this.key = key;
+    this.value = value;
   }
 
   public String toString(){
-    return "Priority: " + priority + ", name: " + name + ", index: " + index;
+    return "Key: " + key + ", Value: " + value + ", index: " + index;
   }
 }
