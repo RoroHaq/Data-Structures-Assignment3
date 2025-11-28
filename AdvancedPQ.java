@@ -75,6 +75,21 @@ public class AdvancedPQ{
 
       return elements[n];
     }
+    public PQElement remove(PQElement e){
+      if(size == 0) throw new IllegalArgumentException("Queue empty, nothing to remove");
+
+      int index = e.index;
+      elements[index] = elements[size-1];
+      elements[index].index = index;
+      size--;
+
+      if(hasParent(index) && compare(elements[index], parent(index))){
+        upHeap();
+      }else{
+        downHeap(index);
+      }
+      return e;
+    }
     public PQElement removeTop(){
       if(size == 0) throw new IllegalArgumentException("Nothing to remove");
 
@@ -110,7 +125,7 @@ public class AdvancedPQ{
     }
     public void upHeap(){
       int index = size-1;
-      while (hasParent(index) && compare(elements[index], parent(index)) ){
+      while (hasParent(index) && compare(elements[index], parent(index))){
         swap(getParentIndex(index), index);
         index = getParentIndex(index);
       }

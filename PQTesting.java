@@ -15,8 +15,14 @@ public class PQTesting {
         test1.insert(priorities2[i], names2[i]);
     }
     System.out.println(test);
+    System.out.println(test.size());
     PQElement found = test.peekAt(1);
+    System.out.println("\n");
+    PQElement removed = test.remove(found);
 
-    System.out.println(found);
+    System.out.println(test);
+    System.out.println(test.size());
+    System.out.println("\n");
+    System.out.println(removed);
   }
 }
