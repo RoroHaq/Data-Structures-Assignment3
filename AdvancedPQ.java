@@ -13,10 +13,17 @@ public class AdvancedPQ{
     public AdvancedPQ(){
       elements = new PQElement[capacity];
     }
+    /**
+     * This method returns the size of the Advanced Priority Queue
+     * @return int representing size
+     */
     public int size(){
       return size;
     }
 
+    /**
+     * This method doubles the array size when the PQ is full
+     */
     public void ensureExtraCapacity(){
       if(size == elements.length){
         PQElement[] newElements = new PQElement[capacity * 2];
@@ -27,12 +34,22 @@ public class AdvancedPQ{
         elements = newElements;
       }
     }
+    /**
+     * This method switches from min heap to max heap, vice versa
+     * then does the change afterwards.
+     */
     public void toggle(){
       isMinHeap = !isMinHeap;
       for(int i = (size-2)/2 ; i >= 0; i--){
         downHeap(i);
       }
     }
+    /**
+     * Helper function in which helps comparison if its a min-heap or max-heap
+     * @param child current node
+     * @param parent parent node
+     * @return Boolean of either its less than or not depending on the heap type.
+     */
     public boolean compare(PQElement child, PQElement parent){
       if(isMinHeap){
         return child.key < parent.key;
@@ -40,6 +57,12 @@ public class AdvancedPQ{
         return child.key > parent.key;
       }
     }
+    /**
+     * This methid is used to swap positions when up/down-heaping
+     * adjusts indexes too
+     * @param indexOne index of child node
+     * @param indexTwo index of parent node
+     */
     public void swap(int indexOne, int indexTwo){
       PQElement temp = elements[indexOne];
       elements[indexOne] = elements[indexTwo];
@@ -66,15 +89,28 @@ public class AdvancedPQ{
         downHeap(i);
       }
     }
+    /**
+     * This returns the Highest priority element without removing
+     * @return Object ith key, value and index
+     */
     public PQElement top(){
       if(size == 0) throw new IllegalArgumentException("No Top Value");
       return elements[0];
     }
+    /**
+     * This returns the element of any in the Advanced Priority Queue
+     * @param n the index position
+     * @return the element at said index if it exists
+     */
     public PQElement peekAt(int n){
       if(n < 0 || n > size) throw new IllegalArgumentException("Index out of bound, attempt another that is above 0 and below " + size);
 
       return elements[n];
     }
+    /**
+     * This method returns wether or not its a min-heap or max-heap
+     * @return String representation of the state
+     */
     public String state(){
       if (isMinHeap){
         return "Min";
@@ -83,6 +119,13 @@ public class AdvancedPQ{
         return "Max";
       }
     }
+    /**
+     * This method replaced the element's key and fixes the heap accordingly,
+     * returning the old key it had
+     * @param e the element's key were replacing
+     * @param k the new key the element will use.
+     * @return
+     */
     public int replaceKey(PQElement e, int k){
       int index = e.index;
       int oldKey = e.key;
@@ -94,14 +137,27 @@ public class AdvancedPQ{
       }
       return oldKey;
     }
+    /**
+     * This method goes to the element and replaces the value,
+     * returning the old value.
+     * @param e the element's value were repalcing
+     * @param v the new value the element will use
+     * @return the old value of the element
+     */
     public String replaceValue(PQElement e, String v){
       String oldValue = e.value;
       e.value = v;
       return oldValue;
     }
+    /**
+     * Thsi method removes an element in the PQ and adjust it 
+     * accordingly, returning the old element
+     * @param e the element were removing
+     * @return the old element
+     */
     public PQElement remove(PQElement e){
       if(size == 0) throw new IllegalArgumentException("Queue empty, nothing to remove");
-
+      PQElement oldElement = e;
       int index = e.index;
       elements[index] = elements[size-1];
       elements[index].index = index;
@@ -112,8 +168,13 @@ public class AdvancedPQ{
       }else{
         downHeap(index);
       }
-      return e;
+      return oldElement;
     }
+    /**
+     * This method removes the highest priority element in the Advanced Priority Queue, 
+     * then returns it.
+     * @return the highest priority element in the APQ
+     */
     public PQElement removeTop(){
       if(size == 0) throw new IllegalArgumentException("Nothing to remove");
 
@@ -124,6 +185,13 @@ public class AdvancedPQ{
       downHeap(0);
       return item;
     }
+    /**
+     * This method is used to insert new elements in the APQ,
+     * then returns the element you made.
+     * @param k the key for the new element
+     * @param v the value for the new element
+     * @return the element with the new key and value.
+     */
     public PQElement insert (int k, String v){
       PQElement item = new PQElement(k, v);
       item.index = size;
@@ -132,6 +200,10 @@ public class AdvancedPQ{
       upHeap(size-1);
       return item;
     }
+    /**
+     * This method is used to help with the downheap operation
+     * @param index
+     */
     public void downHeap(int index){
       while(hasLeftChild(index)){
         
@@ -147,6 +219,10 @@ public class AdvancedPQ{
         index = smallerChildIndex;
       }
     }
+    /**
+     * This method is use to help with the upheap operation
+     * @param index
+     */
     public void upHeap(int index){
       while (hasParent(index) && compare(elements[index], parent(index))){
         swap(getParentIndex(index), index);
@@ -154,6 +230,10 @@ public class AdvancedPQ{
       }
     }
 
+    /**
+     * This method checks if the APQ is empty
+     * @return boolean of true or false if its empty or not
+     */
     public boolean isEmpty(){
       return size == 0;
     }
