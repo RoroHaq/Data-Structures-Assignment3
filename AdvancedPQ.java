@@ -6,16 +6,27 @@
  */
 public class AdvancedPQ{
     public PQElement[] elements;
+    private int capacity = 100;
     private int size = 0;
     private boolean isMinHeap = true;
 
     public AdvancedPQ(){
-      elements = new PQElement[15];
+      elements = new PQElement[capacity];
     }
     public int size(){
       return size;
     }
 
+    public void ensureExtraCapacity(){
+      if(size == elements.length){
+        PQElement[] newElements = new PQElement[capacity * 2];
+
+        for(int i =0; i < elements.length; i++){
+          newElements[i] = elements[i];
+        }
+        elements = newElements;
+      }
+    }
     public void toggle(){
       isMinHeap = !isMinHeap;
       for(int i = (size-2)/2 ; i >= 0; i--){
@@ -35,19 +46,26 @@ public class AdvancedPQ{
       elements[indexOne] = elements[indexTwo];
       elements[indexTwo] = temp;
 
+      elements[indexOne].index = indexOne;
+      elements[indexTwo].index = indexTwo;
     }
-
+    public PQElement top(){
+      if(size == 0) throw new IllegalArgumentException("No Top Value");
+      return elements[0];
+    }
     public PQElement removeTop(){
-      if(size == 0) throw new IllegalArgumentException();
+      if(size == 0) throw new IllegalArgumentException("Nothing to remove");
 
       PQElement item = elements[0];
       elements[0] = elements[size - 1];
+      elements[0].index = 0;
       size--;
       downHeap(0);
       return item;
     }
     public PQElement insert (int k, String v){
       PQElement item = new PQElement(k, v);
+      item.index = size;
       elements[size] = item;
       size++;
       upHeap();
@@ -64,7 +82,6 @@ public class AdvancedPQ{
           break;
         }else{
           swap(index, smallerChildIndex);
-          
         }
         index = smallerChildIndex;
       }
@@ -77,10 +94,14 @@ public class AdvancedPQ{
       }
     }
 
+    public boolean isEmpty(){
+      return size == 0;
+    }
+
     public String toString(){
       String message = "";
       for(int i = 0 ; i < size; i++){
-        message += "(" + elements[i].priority + ", " + elements[i].name + ") " + "| ";
+        message += "(" + elements[i].priority + ", " + elements[i].name + " at index: " + elements[i].index + ") " + "| ";
       }
 
       return message;
