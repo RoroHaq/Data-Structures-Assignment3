@@ -1,0 +1,88 @@
+/**
+ * Safin Haque (40331155)
+ * Dmitriy Kim (40336205)
+ */
+
+// Fields of Advanced PQ
+elements: Array of Entries
+capacity: The current maximum capacity of the elements array
+size: The current number of entries stored in the priority queue
+isMinHeap: A flag indicating the current state of the heap
+
+ Algorithm replaceKey(e,k)
+ Input: entry e to modify, and new integer k
+ Output: The old key of the entry
+	index <- e.index
+	oldKey <- e.key
+	e.key <- k
+
+	if hasParent(index) and compare(elements[i], parent(i)) then
+		upHeap(index)
+	else 
+		downHeap(index)
+
+	return oldKey
+
+Algorithm state()
+Output: The current mode of the queue (Min or Max)
+	if isMinHeap then
+		return "Min"
+	else
+		return "Max"
+
+Algorithm peekAt(n)
+Input: Integer n representing the nth smallest or biggest element the APQ
+Output: The smallest/biggest element at nth rank  
+
+	if n < 0 or n > size then
+		throw exception
+
+	if n = 0 then
+		return elements[0]
+
+	tempPq <- new Advanced Priority Queue
+	if not isMinHeap then
+		tempPq.toggle()
+
+	for i <- 0 to size do
+		tempPq.insert(elements[i].key, elements[i].value)
+
+	for i <- 0 to n - 1 do
+		tempPq.removeTop()
+
+	return tempPq.top()
+
+Algorithm merge(otherAPQ)
+Input: otherAPQ is APQ to merge
+Output: void
+
+	otherAPQSize <- otherAPQ.size()
+
+	for i <- 0 to otherAPQSize - 1 do
+		resizeArrayIfNeeded()
+
+		otherNode <- otherAPQ.elements[i]
+		newNode <- new PQElement(otherNode.key, otherNode.value)
+
+		newNode.index <- size
+		elements[size] <- newNode
+		size++
+	
+	for i <- (size - 2) /2 down to i = 0 do
+		downHeap(i)
+
+b) Time complexity
+
+toggle(): O(n) 
+Explanation: We are using bottom up heap construction algorithm 
+which has the time complexity of O(n)
+
+remove(e): O(logn) amortized and O(n) when shrinking the array
+Explanation: Every time we remove the element from a heap, we have to downHeap the last element in the heap. Therefore, the best time complexity we can achieve is O(logn). Since we are using expandable array, we would have to shrink our array once in a while which can cause the remove operation to be O(n). However, the shrinking process happens extremely rarely, so we can say that the amortized time is O(logn).
+
+peekAt: O(nlogn)
+Explanation: To find nth smallest/largest element in the heap, we need to create a clone of APQ which takes O(n). Then we have to remove nth elements from the cloned APQ, and peek at the top of the heap, which also takes O(nlogn) times. Since we have O(n) + O(nlogn), the worst time complexity is O(nlogn)  
+
+merge: O(n+m)
+Explanation: First we would have to append the new APQ with the size of m to the existing APQ. This would take O(m). Then we would have to re-build our heap, which will take O(n) times (just like in toggle). Finally, we have O(n) + O(m) which will result in O(n + m)
+
