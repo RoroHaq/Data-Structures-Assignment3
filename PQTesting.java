@@ -15,20 +15,8 @@ public class PQTesting {
         test1.insert(priorities2[i], names2[i]);
     }
     System.out.println(test);
-    System.out.println("\n");
+    PQElement found = test.peekAt(1);
 
-    System.out.println(test1);
-    test1.toggle();
-    System.out.println("\n");
-    System.out.println(test1);
-
-    test.merge(test1);
-
-    System.out.println("\n");
-    System.out.println(test);
-
-    test.removeTop();
-    System.out.println("\n");
-    System.out.println(test);
+    System.out.println(found);
   }
 }

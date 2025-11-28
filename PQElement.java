@@ -7,4 +7,8 @@ public class PQElement {
     this.priority = priority;
     this.name = name;
   }
+
+  public String toString(){
+    return "Priority: " + priority + ", name: " + name + ", index: " + index;
+  }
 }

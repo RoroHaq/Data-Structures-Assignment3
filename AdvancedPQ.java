@@ -48,7 +48,11 @@ public class AdvancedPQ{
       elements[indexOne].index = indexOne;
       elements[indexTwo].index = indexTwo;
     }
-
+    /**
+     * This method is used to merge two APQ's together withing
+     * the rules of the PQ otherAPQ merges into.
+     * @param otherAPQ
+     */
     public void merge(AdvancedPQ otherAPQ){
       int otherAPQSize = otherAPQ.size();
       for(int i =0; i < otherAPQSize; i++){
@@ -65,6 +69,11 @@ public class AdvancedPQ{
     public PQElement top(){
       if(size == 0) throw new IllegalArgumentException("No Top Value");
       return elements[0];
+    }
+    public PQElement peekAt(int n){
+      if(n < 0 || n > size) throw new IllegalArgumentException("Index out of bound, attempt another that is above 0 and below " + size);
+
+      return elements[n];
     }
     public PQElement removeTop(){
       if(size == 0) throw new IllegalArgumentException("Nothing to remove");
