@@ -6,7 +6,7 @@
 /**
  * Common formula for figuring out heap left and right children:
  * Left child : (index * 2) + 1
- * Right right : (index *2) + 2
+ * Right child : (index *2) + 2
  */
 public class AdvancedPQ {
   public PQElement[] elements;
